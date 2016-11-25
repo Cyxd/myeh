@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project default="main" basedir=".">
+
+	<property name="jar.name" value="ourjarfile.jar" />
+	<!-- base directory for distribution target -->
+	<property name="dist.home" value="dist" />
+	<!-- base directory for compilation targets -->
+	<property name="build.home" value="target" />
+	<!-- The base directory for all libraries (jar) files -->
+	<property name="lib.home" value="lib" />
+
+
+	<path id="classpath">
+		<fileset dir="${lib}" include="**/*.jar" />
+	</path>
+
+	<target name="jar" depends="compile">
+		<pathconvert property="mf.classpath" pathsep=" ">
+			<path refid="classpath" />
+			<flattenmapper />
+		</pathconvert>
+		<jar destfile="${dest.jar}">
+			<fileset dir="${source.class}">
+				<include name="**/*.class" />
+			</fileset>
+			<manifest>
+				<attribute name="Main-Class" value="${mainclass}" />
+				<attribute name="Class-Path" value="${mf.classpath} " />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="main" depends="compile, compress" description="Main target">
+		<echo>Building the .jar file.</echo>
+	</target>
+	<target name="compile" description="Compilation target">
+		<javac srcdir="${basedir}/src" />
+	</target>
+	<target name="compress" description="Compression target">
+		<jar jarfile="ant-rc.jar" basedir="${basedir}/src" includes="**/*.class" />
+	</target>
+</project>
