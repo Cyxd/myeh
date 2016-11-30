@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cyxd.demo.dao.ServicerMapper" >
+	<resultMap id="BaseResultMap" type="com.cyxd.demo.dto.Servicer" >
+		<id column="ID" property="id" jdbcType="CHAR" />
+		<result column="EMP_NO" property="empNo" jdbcType="VARCHAR" />
+		<result column="SER_NO" property="serNo" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
+		<result column="QQ_NO" property="qqNo" jdbcType="VARCHAR" />
+		<result column="PHONE_NO" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="STATE" property="state" jdbcType="CHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+		ID, EMP_NO, SER_NO, NAME, NICK_NAME, QQ_NO, PHONE_NO, STATE
+	</sql>
+	
+	<select id="findCountBySelective4Behind" resultType="java.lang.Integer"
+		parameterType="com.cyxd.demo.dto.Servicer">
+		SELECT
+		count(1)
+		FROM servicer
+		where `STATE` != '3'
+			<if test="seachWord != null and seachWord != ''">
+				AND
+				(	
+					`SER_NO` like CONCAT('%',#{seachWord,jdbcType=VARCHAR},'%')
+					or
+					`NICK_NAME` like CONCAT('%',#{seachWord,jdbcType=VARCHAR},'%')
+				)
+			</if>
+	</select>
+	<select id="findBySelective4Behind" resultMap="BaseResultMap"
+		parameterType="com.cyxd.demo.dto.Servicer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM servicer
+		where `STATE` != '3'
+			<if test="seachWord != null and seachWord != ''">
+				AND
+				(
+					`SER_NO` like CONCAT('%',#{seachWord,jdbcType=VARCHAR},'%')
+					or
+					`NICK_NAME` like CONCAT('%',#{seachWord,jdbcType=VARCHAR},'%')
+				)
+			</if>
+		order by ${orderBy} ${orderType}
+		limit ${start},${cycle}
+	</select>
+	
+	<select id="findBySelective" resultMap="BaseResultMap" parameterType="com.cyxd.demo.dto.Servicer" >
+		select 
+		<include refid="Base_Column_List" />
+		from servicer
+		<where>
+			<if test="state != null" >
+				AND STATE = #{state,jdbcType=CHAR}
+			</if>
+		</where>
+	</select>
+
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select 
+		<include refid="Base_Column_List" />
+		from servicer
+		where ID = #{id,jdbcType=CHAR}
+	</select>
+
+	<update id="update" parameterType="com.cyxd.demo.dto.Servicer" >
+		update servicer
+		<set >
+			<if test="empNo != null" >
+				EMP_NO = #{empNo,jdbcType=VARCHAR},
+			</if>
+			<if test="serNo != null" >
+				SER_NO = #{serNo,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null" >
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="nickName != null" >
+				NICK_NAME = #{nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="qqNo != null" >
+				QQ_NO = #{qqNo,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneNo != null" >
+				PHONE_NO = #{phoneNo,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null" >
+				STATE = #{state,jdbcType=CHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=CHAR}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String" >
+		delete from servicer
+		where ID = #{id,jdbcType=CHAR}
+	</delete>
+
+	<insert id="add" parameterType="com.cyxd.demo.dto.Servicer" >
+		insert into servicer
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+				ID,
+			</if>
+			<if test="empNo != null" >
+				EMP_NO,
+			</if>
+			<if test="serNo != null" >
+				SER_NO,
+			</if>
+			<if test="name != null" >
+				NAME,
+			</if>
+			<if test="nickName != null" >
+				NICK_NAME,
+			</if>
+			<if test="qqNo != null" >
+				QQ_NO,
+			</if>
+			<if test="phoneNo != null" >
+				PHONE_NO,
+			</if>
+			<if test="state != null" >
+				STATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+				#{id,jdbcType=CHAR},
+			</if>
+			<if test="empNo != null" >
+				#{empNo,jdbcType=VARCHAR},
+			</if>
+			<if test="serNo != null" >
+				#{serNo,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null" >
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="nickName != null" >
+				#{nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="qqNo != null" >
+				#{qqNo,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneNo != null" >
+				#{phoneNo,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null" >
+				#{state,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+	<name>sax</name>
+	<system>
+		<base>
+			<!-- 系统处于阶段，alpha-内部测试版、beta-公开测试版、rc-候选版、stable-发行版 -->
+			<stage>alpha</stage>
+			<root.name>sax</root.name>
+			<root-name id="dsds">sax</root-name>
+			
+		</base>
+		<global>
+			<upload>
+				<root></root>
+				<file>
+					<path></path>
+					<maxsize></maxsize>
+				</file>
+			</upload>
+			<download>
+				<root></root>
+				<file>
+					<path></path>
+				</file>
+			</download>
+		</global>
+		<custom>
+			<upload>
+				<!-- 上传根目录 -->
+				<root>/cyxd/ddd/</root>
+				<file>
+					<!-- 商品首页展示图片 -->
+					<goods id="goods_behavior" name="behavior" maxsize="2048" >/root/DeskTop</goods>
+					
+					<goods_behavior_path></goods_behavior_path>
+					<goods_behavior_maxsize></goods_behavior_maxsize>
+					<!-- 商品列表展示图片 -->
+					<goods_path></goods_path>
+					<goods_maxsize></goods_maxsize>
+					<!-- 商品轮播、效果展示图片 -->
+					<goods_banner_path></goods_banner_path>
+					<goods_banner_maxsize></goods_banner_maxsize>
+					<!-- 商品相册展示图片 -->
+					<goods_album_path></goods_album_path>
+					<goods_album_maxsize></goods_album_maxsize>
+				</file>
+			</upload>
+			<download>
+				<root></root>
+				<file>
+					<path></path>
+				</file>
+			</download>
+		</custom>
+	</system>
+</root>

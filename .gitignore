@@ -1,0 +1,4 @@
+*.classpath
+*.launch
+ant-rc/.project
+*.class
