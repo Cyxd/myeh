@@ -2,3 +2,5 @@
 *.launch
 ant-rc/.project
 *.class
+*.project
+*.prefs

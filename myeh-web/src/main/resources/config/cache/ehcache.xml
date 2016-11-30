@@ -1,0 +1,38 @@
+<ehcache>
+	<diskStore path="java.io.tmpdir" />
+
+	<!-- 指定除自身之外的网络群体中其他提供同步的主机列表，用“|”分开不同的主机 -->
+	<cacheManagerPeerProviderFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+		properties="peerDiscovery=manual,rmiUrls=//localhost:40004/metaCache|//localhost:60000/metaCache" />
+
+	<!-- 配宿主主机配置监听程序，来发现其他主机发来的同步请求 -->
+	<cacheManagerPeerListenerFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+		properties="port=40004,socketTimeoutMillis=120000" />
+
+
+	<defaultCache maxElementsInMemory="1000" eternal="false"
+		timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="false" />
+
+	<cache name="dictCache" maxElementsOnDisk="20000"
+		maxElementsInMemory="2000" eternal="true" overflowToDisk="true"
+		diskPersistent="true">
+
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy= false, replicateRemovals= true " />
+	</cache>
+
+
+
+	<cache name="countryCache" maxElementsOnDisk="20000"
+		maxElementsInMemory="2000" eternal="true" overflowToDisk="true"
+		diskPersistent="true">
+
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy= false, replicateRemovals= true " />
+
+	</cache>
+</ehcache>  

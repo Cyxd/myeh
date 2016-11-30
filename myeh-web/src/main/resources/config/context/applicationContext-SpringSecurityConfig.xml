@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<!-- Beans!Configuration Begin -->
+	<!-- 启用表达式 为了后面的投票器做准备 -->
+	<!-- <bean id="expressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" 
+		/> <bean id="expressionVoter" class="org.springframework.security.web.access.expression.WebExpressionVoter"> 
+		<property name="expressionHandler" ref="expressionHandler" /> </bean> <bean 
+		id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased"> 
+		<property name="decisionVoters"> <list> <bean class="org.springframework.security.access.vote.RoleVoter" 
+		/> <bean class="org.springframework.security.access.vote.AuthenticatedVoter" 
+		/> <ref bean="expressionVoter" /> </list> </property> </bean> -->
+
+	<!-- Automatically receives AuthenticationEvent messages -->
+	<bean id="loggerListener"
+		class="org.springframework.security.authentication.event.LoggerListener" />
+	<bean id="authorizationListener"
+		class="org.springframework.security.access.event.LoggerListener" />
+
+	<!-- 用户业务逻辑实现类 -->
+	<bean id="userService" class="com.cyxd.myeh.web.security.C01_UserService">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 注意这里的秘钥值 -->
+	<bean id="pwdEncoder"
+		class="org.springframework.security.crypto.password.StandardPasswordEncoder">
+		<constructor-arg name="secret" value="s6881280221184L" />
+	</bean>
+
+	<!-- Beans!Configuration End -->
+
+	<!-- Spring Security采用就近原则,有多个约束时,从上至下只要找到第一条满足就返回,因此因该将最严格的约束放在最前面,而将最宽松的约束放在最后面.auto-config属性可以让spring 
+		security为我们自动配置几种常用的权限控制机制，包括form,anonymous, rememberMe等。当然你也可以手工配置。 -->
+
+	<!-- <security:http security="none" pattern="/**/*.css" /> -->
+	<!-- <security:http security="none" pattern="/**/*.js" /> -->
+	<security:http security="none" pattern="/static/**" />
+	<!-- <security:http security="none" pattern="/css/**" /> -->
+	<!-- <security:http security="none" pattern="/scss/**" /> -->
+	<security:http security="none" pattern="/login/" />
+	<security:http security="none" pattern="/*.jsp" />
+	<security:http security="none" pattern="/**/*.jsp" />
+
+	<!-- access-decision-manager-ref="accessDecisionManager" -->
+
+	<security:http auto-config='true' access-denied-page="/login"
+		use-expressions="true">
+		<!-- 我们利用intercept-url来判断用户需要具有何种权限才能访问对应的url资源， 可以在pattern中指定一个特定的url资源.<br>也可以使用通配符指定一组类似的url资源。例子中定义的两个intercepter-url，第一个用来控制对/security/**的访问，第二个使用了通配符/**，说明它将控制对系统中所有url资源的访问。 -->
+		<security:intercept-url pattern="/sct/**"
+			access="ROLE_USER" />
+		<security:intercept-url pattern="/**"
+			access=" hasRole('ROLE_ADMIN')" />
+
+		<!-- 自定义登陆页面 -->
+		<security:form-login login-page="/login/"
+			default-target-url="/index.jsp" authentication-failure-url="/login/?code=fail"
+			login-processing-url="/j_spring_security_check/" password-parameter="password"
+			username-parameter="username" />
+
+		<!-- 注销时删除JSESSIONID cookie -->
+		<security:logout logout-url="/logout.jsp"
+			logout-success-url="/j_spring_security_check" delete-cookies="JSESSIONID" />
+
+		<!-- <logout logout-url="/logout" invalidate-session="true" logout-success-url="/login" 
+			/> -->
+
+		<!-- <remember-me key="webmvc#FD637E6D9C0F1A5A67082AF56CE32485" /> -->
+		<!-- 配置Spring Security检测失效的session ID， 并把用户转发到对应的URL。这可以通过 session-management 
+			元素配置：<br> session-fixation-protection:防止Session固定攻击, 它有三个选项 migrateSession 
+			- 创建一个新session，把原来session中所有属性复制到新session中。这是默认值。 none - 什么也不做，继续使用原来的session。 
+			newSession - 创建一个新的“干净的”session，不会复制session中的数据。 -->
+		<security:session-management
+			invalid-session-url="/timeout.jsp" session-fixation-protection="migrateSession">
+			<!-- max-sessions: 限制单个用户只能登录到你的程序一次<br> error-if-maximum-exceeded: 这将防止一个用户重复登录好几次-第二次登录会让第一次登录失效。 
+				通常我们更想防止第二次登录 -->
+			<security:concurrency-control
+				max-sessions="1" error-if-maximum-exceeded="true" expired-url="/timeout.jsp" />
+		</security:session-management>
+
+	</security:http>
+	<!-- 使用数据库作为权限管理的来源,data-source-ref指定了数据源,所指定的数据源必须包含users, authorities表,并符合security的定义规范 -->
+	<security:authentication-manager>
+		<security:authentication-provider
+			user-service-ref="userService">
+			<security:password-encoder ref="pwdEncoder" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<!--remember-me-parameter="remember-me" 使用内存权限管理的配置信息, 在tomcat启动时,会加载这个文件并一直保存在内存中,知道应用程序重启,所以也叫内存权限管理。<br> -->
+	<!-- <authentication-provider> <user-service> <user name="admin" password="tomcat" 
+		authorities="ROLE_ADMIN" /> <user name="liky" password="redhat" authorities="ROLE_USER" 
+		/> </user-service> </authentication-provider> -->
+
+	<!-- 认证管理器，使用自定义的UserDetailsService，并对密码采用md5加密 -->
+	<!-- <authentication-manager> <authentication-provider user-service-ref="userService"> 
+		<password-encoder hash="md5" /> </authentication-provider> </authentication-manager> -->
+
+</beans>
