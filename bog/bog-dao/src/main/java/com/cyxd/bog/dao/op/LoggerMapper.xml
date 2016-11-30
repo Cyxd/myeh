@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cyxd.bog.dao.op.LoggerMapper">
+	<resultMap id="BaseResultMap" type="com.cyxd.bog.model.op.Logger">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="operate" property="operate" jdbcType="VARCHAR" />
+		<result column="operate_type" property="operateType" jdbcType="VARCHAR" />
+		<result column="operator" property="operator" jdbcType="VARCHAR" />
+		<result column="operate_date" property="operateDate" jdbcType="VARCHAR" />
+		<result column="operate_ip_addr" property="operateIpAddr"
+			jdbcType="VARCHAR" />
+		<result column="method_took_time" property="methodTookTime"
+			jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,operate,operate_type,operator,operate_date,operate_ip_addr,method_took_time
+	</sql>
+
+	<select id="baseList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from logger
+		limit 1,10
+	</select>
+
+	<select id="findBySelective" resultMap="BaseResultMap"
+		parameterType="com.cyxd.bog.model.op.Logger">
+		select
+		<include refid="Base_Column_List" />
+		from logger
+		<where>
+			<if test="operate != null and operate != '' ">
+				and operate like
+				concat('%',#{operate,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="operator != null and operator != '' ">
+				and operator like
+				concat('%',#{operator,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="operateDateDown != null and operateDateDown != '' ">
+				and operate_date >= #{operateDateDown,jdbcType=VARCHAR}
+			</if>
+			<if test="operateDateUp != null and operateDateUp != '' ">
+				and #{operateDateUp,jdbcType=VARCHAR} >= operate_date
+			</if>
+		</where>
+		<if test="orderBy != null and orderBy != '' ">
+			order by ${orderBy} ${orderType}
+		</if>
+		<if test="orderBy == null or orderBy == '' ">
+			order by operate_date desc
+		</if>
+	</select>
+
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from logger
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from
+		logger
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="add" parameterType="com.cyxd.bog.model.op.Logger">
+		insert into logger
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="operate != null">
+				operate,
+			</if>
+			<if test="operateType != null">
+				operate_type,
+			</if>
+			<if test="operator != null">
+				operator,
+			</if>
+			<if test="operateDate != null">
+				operate_date,
+			</if>
+			<if test="operateIpAddr != null">
+				operate_ip_addr,
+			</if>
+			<if test="methodTookTime != null">
+				method_took_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="operate != null">
+				#{operate,jdbcType=VARCHAR},
+			</if>
+			<if test="operateType != null">
+				#{operateType,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operateDate != null">
+				#{operateDate,jdbcType=VARCHAR},
+			</if>
+			<if test="operateIpAddr != null">
+				#{operateIpAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="methodTookTime != null">
+				#{methodTookTime,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+</mapper>

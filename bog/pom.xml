@@ -1,0 +1,272 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.cyxd.bog</groupId>
+	<artifactId>bog</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>bog</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<spring_version>4.3.4.RELEASE</spring_version>
+		<spring_boot_version>1.3.8.RELEASE</spring_boot_version>
+		<spring_security_version>4.2.0.RELEASE</spring_security_version>
+		<mybatis_version>3.2.6</mybatis_version>
+		<mybatis_spring_version>1.2.5</mybatis_spring_version>
+		<mysql_version>5.1.29</mysql_version>
+
+		<commons_lang3_version>3.3.1</commons_lang3_version>
+		<commons_httpclient_version>3.1</commons_httpclient_version>
+		<apache_httpcomponents_httpclient_version>4.5.2</apache_httpcomponents_httpclient_version>
+		<apache_httpcomponents_httpmime_version>4.5.2</apache_httpcomponents_httpmime_version>
+
+		<org_json_version>20160212</org_json_version>
+		<jackson.version>1.7.6</jackson.version>
+
+		<junit_version>4.11</junit_version>
+		<jetty_version>9.2.8.v20150217</jetty_version>
+
+		<google_guava_version>19.0</google_guava_version>
+		<google_gson_version>2.8.0</google_gson_version>
+
+		<jstl_version>1.2</jstl_version>
+
+	</properties>
+	<modules>
+		<module>bog-base</module>
+		<module>bog-util</module>
+		<module>bog-model</module>
+		<module>bog-dao</module>
+		<module>bog-service</module>
+		<module>bog-webapp</module>
+	</modules>
+	<dependencies>
+		<!-- inner -->
+		<!-- <dependency> <groupId>com.cyxd.bog</groupId> <artifactId>bog-base</artifactId> 
+			<version>${project.version}</version> </dependency> <dependency> <groupId>com.cyxd.bog</groupId> 
+			<artifactId>bog-util</artifactId> <version>${project.version}</version> </dependency> 
+			<dependency> <groupId>com.cyxd.bog</groupId> <artifactId>bog-model</artifactId> 
+			<version>${project.version}</version> </dependency> <dependency> <groupId>com.cyxd.bog</groupId> 
+			<artifactId>bog-dao</artifactId> <version>${project.version}</version> </dependency> 
+			<dependency> <groupId>com.cyxd.bog</groupId> <artifactId>bog-service</artifactId> 
+			<version>${project.version}</version> </dependency> -->
+
+		<!-- outter -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit_version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- mybaits -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis_version}</version>
+		</dependency>
+
+		<!-- mybatis-spring -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>${mybatis_spring_version}</version>
+		</dependency>
+
+		<!-- JDBC驱动 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql_version}</version>
+		</dependency>
+
+		<!-- spring相关 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+			<version>${spring_version}</version>
+		</dependency>
+
+		<!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${spring_boot_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<version>${spring_boot_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot</artifactId>
+			<version>${spring_boot_version}</version>
+		</dependency> -->
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring_security_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring_security_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring_security_version}</version>
+		</dependency>
+
+		<!-- 依赖的公共类库 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons_lang3_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>${commons_httpclient_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${apache_httpcomponents_httpclient_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>${apache_httpcomponents_httpmime_version}</version>
+		</dependency>
+
+		<!-- JSON -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>${org_json_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<!-- Google API -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${google_gson_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${google_guava_version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jstl_version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.logback-extensions</groupId>
+			<artifactId>logback-ext-spring</artifactId>
+			<version>0.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.12</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty_version}</version>
+			</plugin>
+		</plugins>
+
+		<!-- 指定Maven编译插件，如果不设置，它就会用maven-compiler-plugin默认的jdk版本来进行处理 -->
+		<!-- 这样就容易出现版本不匹配的问题，以至于可能导致编译不通过的问题 -->
+		<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> 
+			<version>3.1</version> <configuration> <source>1.7</source> <target>1.7</target> 
+			<fork>true</fork> <verbose>true</verbose> <encoding>UTF-8</encoding> <compilerArguments> 
+			<sourcepath>${project.basedir}/src/main/java</sourcepath> </compilerArguments> 
+			</configuration> </plugin> -->
+		<!-- maven-resources-plugin则用来处理资源文件。默认的主资源文件目录是src/main/resources， 很多用户会需要添加额外的资源文件目录，这个时候就可以通过配置maven-resources-plugin来实现。 
+			此外，资源文件过滤也是Maven的一大特性，你可以在资源文件中使用${propertyName}形式的Maven属性， 然后配置maven-resources-plugin开启对资源文件的过滤，之后就可以针对不同环境通过命令行或者Profile传入属性的值， 
+			以实现更为灵活的构建。 -->
+		<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-resources-plugin</artifactId> 
+			<version>2.6</version> <configuration> <encoding>UTF-8</encoding> </configuration> 
+			</plugin> -->
+
+	</build>
+
+</project>

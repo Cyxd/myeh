@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration  
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- <typeAliases> <typeAlias type="com.xxt.ibatis.dbcp.domain.User" alias="User" 
+		/> </typeAliases> -->
+
+	<!-- mapper Config，指定sql映射文件 -->
+	<mappers>
+		<!-- 使用相对路径的资源 -->
+		<!-- <mapper resource="UserMapper.xml"/> -->
+		<!-- 使用完全限定路径 -->
+		<!-- <mapper url="file:///D:\LeoWorkspace\mybatis\mapperConfig\UserMapper.xml"/> -->
+		<!-- 使用 mapper 接口类路径 ：要求 mapper 接口名和 mapper映射文件名 相同，且放在同一个目录下 -->
+		<!-- <mapper class="mybatis.mapper.UserMapper"/> -->
+		<!-- 通过 package 指定扫描 mapper 包的路径，MyBatis 自动将此包下的 mapper 接口与 mapper 映射文件对应 
+			：要求 mapper 接口名和 mapper映射文件名 相同，且放在 同一个目录下 -->
+		<package name="com.cyxd.bog.dao" />
+
+	</mappers>
+</configuration>
+  
